@@ -1,218 +1,406 @@
-<!-- Stucture -->
-
-
-<!--
-
-Logo(svg) | 
-
--->
-
-<!--
-
-Main-Page : 
-Header : Composers - Styles - ... 
-
-<div>
-    New :
-</div> 
-<div>                                            <---- Unfoldable
-    Harmony & Chord Progressions : Mozart - K397 <---- Title (link)
-    <iframe>SVG</iframe>                         <---- Only when unfolded!!!!!
-        added in :                               <---- Sub-title
-            - Mozart                             <---- List of links to other pages (add "show more" Button)
-            - Analyse 2025
-            -  Harmony & Chord Progressions      
-            - Classical Progression
-            - whatever .....
-</div>
-<div>
-    Apreggio Paterns : Mozart - K397
-        added in : .....
-</div>
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-   <link rel="stylesheet" href="dico.css">
-   <script src="dico.js" defer></script>
-  <title>Main Page</title>
-</head>
-<body>
-  
-<header>
-  <!--
-    <div class="logo">
-      <img src="logo.svg" alt="Site Logo">
-    </div>
-    -->
-    <nav>
-      <div class="menu-item">
-        <a href="#">Composers & Others</a>
-        <div class="submenu">
-          <a href="#">Bach</a> <!-- When hover show all Bachs-->
-          <a href="#">Beethoven</a> <!-- when hover change content to full name -->
-          <a href="#">Brahms</a>
-          <a href="#">Chopin</a>
-          <a href="#">Debussy</a>
-          <a href="#">Mozart</a>
-          <a href="#">Vancolster de Rosa</a>
-        </div>
-      </div>
-      <div class="menu-item">
-        <a href="#">Styles</a>
-        <div class="submenu">
-          <a href="#">Renaissance</a> <!-- when hover change add date to date -->
-          <a href="#">Baroque</a>
-          <a href="#">Classical</a>
-          <a href="#">Romantic</a>
-          <a href="#">Modern</a>
-          <a href="#">Jazz</a>
-          <a href="#">Pop</a>
-        </div>
-      </div>
-      <div class="menu-item">
-        <a href="#">Harmony & Chord Progression</a>
-        <div class="submenu">
-          <a href="#">Bass Lines</a>
-          <a href="#">Chromatic Harmony</a>
-          <a href="#">Complex Chords</a>
-          <a href="#">Counterpoint</a>
-          <a href="#">Four Voice Harmony</a>
-          <a href="#">Key Changes</a>
-          <a href="#">Pedal Points/Tones</a>
-        </div>
-      </div>
-      <div class="menu-item">
-        <a href="#">Structures and Forms</a>
-        <div class="submenu">
-          <a href="#">Sonata Form</a>
-          <a href="#">Menuet</a>
-        </div>
-      </div>
-      <div class="menu-item">
-        <a href="#">Rythme & Patterns</a>
-        <div class="submenu">
-          <a href="#">Arpeggios</a>
-          <a href="#">Dances</a>
-          <a href="#">Others</a>
-        </div>
-      </div>
-      <div class="menu-item">
-        <a href="#">Instrumentation</a>
-        <div class="submenu">
-          <a href="#">Chamber Music</a>
-          <a href="#">Wood Winds</a>
-          <a href="#">Brass</a>
-          <a href="#">Percussion</a>
-          <a href="#">Voices & choir</a>
-          <a href="#">Strings</a>
-          <a href="#">Bands</a>
-          <a href="#">Others</a>
-        </div>
-      </div>
-    </nav>
+  <title>Static Menu Windows</title>
+  <style>
+    /* =========================================================
+   BASE
+========================================================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background: #f3f4f6;
+    color: #222;
+}
 
-    <div class="search-bar">
-      <input type="text" placeholder="Search...">
-    </div>
-  </header>
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.title-main {
+    font-size: 2.4em;
+    font-weight: 700;
+    margin: 0;
+}
+
+.title-sub {
+    font-size: 1.4em;
+    font-weight: 400;
+    margin: 6px 0 0;
+    color: #444;
+}
+
+.title-author {
+    font-size: 1em;
+    font-weight: 300;
+    margin: 4px 0 0;
+    color: #666;
+}
+
+
+.section-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+ul {
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+/* =========================================================
+   SCORE ENTRIES
+========================================================= */
+.score-entry {
+    border: 1px solid #ccc;
+    padding: 2.6vh;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.entry-title {
+    font-weight: bold;
+    cursor: pointer;
+    color: #2c3e50;
+}
+
+.entry-content {
+    display: none;
+    margin-top: 10px;
+}
+
+.entry-subtitle {
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* =========================================================
+   SCORE VIEWER (SVG + ZOOM)
+========================================================= */
+.svg-scrollbox {
+    border: none;
+    max-height: 42vh;
+    overflow: auto;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.svg-scrollbox::-webkit-scrollbar {
+    display: none;
+}
+
+.score-svg {
+    transform-origin: top center;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.2s ease;
+}
+
+.zoom-bar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* =========================================================
+   TABS BAR
+========================================================= */
+.tabs-bar {
+    display: flex;
+    gap: 0;
+    position: relative;
+    padding-left: 4px;
+}
+
+.tab-item {
+    padding: 10px 22px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid #d0d0d0;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    margin-right: 6px;
+    transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    user-select: none;
+    font-size: 15px;
+    line-height: 1.3;
+}
+
+.tab-item:hover {
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.tab-item.active {
+    background: #ffffff;
+    color: #111;
+    font-weight: 600;
+    box-shadow:
+        0 -1px 4px rgba(0,0,0,0.04),
+        0 4px 10px -3px rgba(0,0,0,0.08);
+    border-color: #bcbcbc;
+}
+
+.tabs-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: #cccccc;
+    z-index: 0;
+}
+
+/* =========================================================
+   TAB PANELS
+========================================================= */
+.panel-container {
+    margin-top: 0;
+    padding: 18px 25px;
+    min-height: 140px;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 0 12px 12px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    position: relative;
+    z-index: 5;
+}
+
+.tab-panel {
+    display: none;
+}
+
+#all {
+    display: block;
+}
+
+.tab-panel a {
+    display: block;
+    padding: 6px 0;
+    font-size: 15px;
+    text-decoration: none;
+    color: #222;
+    transition: color 0.2s ease;
+}
+
+.tab-panel a:hover {
+    color: #0056d6;
+}
+  </style>
+</head>
+
+<body>
+
+<header class="page-header">
+    <h1 class="title-main">Melodi</h1>
+    <h2 class="title-sub">A Music Dictionary for Composers</h2>
+    <h3 class="title-author">by Adam Vancolster de Rosa</h3>
+</header>
+
+
+<div class="tabs-bar">
+  <div class="tab-item" data-target="all">All</div>
+  <div class="tab-item" data-target="composers">Composers & Others</div>
+  <div class="tab-item" data-target="styles">Styles</div>
+  <div class="tab-item" data-target="harmony">Harmony & Chord Progressions</div>
+  <div class="tab-item" data-target="forms">Structures & Forms</div>
+  <div class="tab-item" data-target="rhythm">Rhythm & Patterns</div>
+  <div class="tab-item" data-target="instrumentation">Instrumentation</div>
+</div>
+
+<div class="panel-container">
+
+  <div class="tab-panel" id="all">
+    <a href="#">Latest Adds</a>
+    <a href="#">Alphabetical</a>
+  </div>
+  
+  <div class="tab-panel" id="composers">
+    <a href="#">Bach</a>
+    <a href="#">Beethoven</a>
+    <a href="#">Brahms</a>
+    <a href="#">Chopin</a>
+    <a href="#">Debussy</a>
+    <a href="#">Mozart</a>
+    <a href="#">Vancolster de Rosa</a>
+  </div>
+
+  <div class="tab-panel" id="styles">
+    <a href="#">Renaissance</a>
+    <a href="#">Baroque</a>
+    <a href="#">Classical</a>
+    <a href="#">Romantic</a>
+    <a href="#">Modern</a>
+    <a href="#">Jazz</a>
+    <a href="#">Pop</a>
+  </div>
+
+  <div class="tab-panel" id="harmony">
+    <a href="#">Bass Lines</a>
+    <a href="#">Chromatic Harmony</a>
+    <a href="#">Complex Chords</a>
+    <a href="#">Counterpoint</a>
+    <a href="#">Four Voice Harmony</a>
+    <a href="#">Key Changes</a>
+    <a href="#">Pedal Points</a>
+  </div>
+
+  <div class="tab-panel" id="forms">
+    <a href="#">Sonata Form</a>
+    <a href="#">Menuet</a>
+  </div>
+
+  <div class="tab-panel" id="rhythm">
+    <a href="#">Arpeggios</a>
+    <a href="#">Dances</a>
+    <a href="#">Others</a>
+  </div>
+
+  <div class="tab-panel" id="instrumentation">
+    <a href="#">Chamber Music</a>
+    <a href="#">Wood Winds</a>
+    <a href="#">Brass</a>
+    <a href="#">Percussion</a>
+    <a href="#">Voices & Choir</a>
+    <a href="#">Strings</a>
+    <a href="#">Bands</a>
+    <a href="#">Others</a>
+  </div>
 
   <div>
-    <span class="new-section">Colour Legend : </span>
+    <span class="section-title">Colour Legend : </span>
     <ul>
       <li>Red Notes (⤻) : Pedal Tone</li>
       <li>Blue Note : Descending Line</li>
-      <li>Green Note : Chromatic Descending Line </li>
-      <li>Blue Roman Numeral : Borrowed from relative tonality<br>Mostly browed from minor tonality : ii, iv, #vii7/</li>
+      <li>Green Note : Chromatic Descending Line</li>
+      <li>Blue Roman Numeral : Borrowed from relative tonality</li>
       <li>Orange Roman Numeral : Secondary Dominants</li>
       <li>Purple Roman Numeral : Minor natural & modal harmony</li>
-      <li>Red Roman Numeral : </li>
+      <li>Red Roman Numeral :</li>
     </ul>
   </div>
+
   <div>
-    <span class="new-section">add # to vii's in minor</span>
+    add # to vii's in minor
   </div>
+
   <div>
-    <span class="new-section">Latest :</span>
-    <div class="entry">
-      <div class="title">
-        Harmony & Chord Progressions : F. Chopin - Op. 28, No. 4 : Prelude in Em
+    <span class="section-title">Latest :</span>
+
+    <div class="score-entry">
+      <div class="entry-title" data-category="hpc">
+        F. Chopin - Op. 28, No. 4 : Prelude in Em
       </div>
-      <div class="content">
-        <div class="viewer-container">
-          <div class="svg-container"><img class="svg-image" src="Chopin/hcp_chopin_28_4.svg" alt="Partition SVG"></div>
-          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+      <div class="entry-content">
+        <div class="score-viewer">
+          <div class="svg-scrollbox"><img class="score-svg" src="Chopin/hcp_chopin_28_4.svg"></div>
+          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
         </div>
-        <div class="subtitle">Related :</div>
-        <ul>
-          <li><a href="#">F. Chopin</a></li>
-          <li><a href="#">Analyse 2025</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Key Changes</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Chromatic Harmony</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Bass Line</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Romantic Chord Progression</a></li>
-        </ul>
+        <div class="entry-subtitle">Related :</div>
+        <ul><li><a href="#"></a></li></ul>
       </div>
     </div>
 
-    <div class="entry">
-      <div class="title">
+    <div class="score-entry">
+      <div class="entry-title" data-category="hpc">
         Harmony & Chord Progressions : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
       </div>
-      <div class="content">
-        <div class="viewer-container">
-          <div class="svg-container"><img class="svg-image" src="Mozart/hcp_mzt_k397.svg" alt="Partition SVG"></div>
-          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+      <div class="entry-content">
+        <div class="score-viewer">
+          <div class="svg-scrollbox"><img class="score-svg" src="Mozart/hcp_mzt_k397.svg"></div>
+          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
         </div>
-        <div class="subtitle">Related :</div>
-        <ul>
-          <li><a href="#">W. A. Mozart</a></li>
-          <li><a href="#">Analyse 2025</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Key Changes</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Pedal Points</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Chromatic Harmony</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Descending Bass Line</a></li>
-          <li><a href="#">Harmony & Chord Progressions : Classical Chord Progression</a></li>
-        </ul>
+        <div class="entry-subtitle">Related :</div>
+        <ul><li><a href="#"></a></li></ul>
       </div>
     </div>
 
-    <div class="entry">
-      <div class="title" >
+    <div class="score-entry">
+      <div class="entry-title" data-category="arp">
         Arpeggio Patterns : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
       </div>
-      <div class="content">
-        <div class="viewer-container">
-          <div class="svg-container"><img class="svg-image" src="Mozart/arp_mzt_k397.svg" alt="Partition SVG"></div>
-          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+      <div class="entry-content">
+        <div class="score-viewer">
+          <div class="svg-scrollbox"><img class="score-svg" src="Mozart/arp_mzt_k397.svg"></div>
+          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
         </div>
-        <div class="subtitle">Related :</div>
-        <ul>
-          <li><a href="#">Mozart</a></li>
-          <li><a href="#">Arpeggios & Textures</a></li>
-        </ul>
+        <div class="entry-subtitle">Related :</div>
+        <ul><li><a href="#"></a></li></ul>
       </div>
     </div>
 
-    <div class="entry">
-      <div class="title" >
+    <div class="score-entry">
+      <div class="entry-title" data-category="arp">
         Arpeggio Patterns : J. S. Bach - BWV 999
       </div>
-      <div class="content">
-        <div class="viewer-container">
-          <div class="svg-container"><img class="svg-image" src="Bach/arp_jsbach_999.svg" alt="Partition SVG"></div> 
-          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+      <div class="entry-content">
+        <div class="score-viewer">
+          <div class="svg-scrollbox"><img class="score-svg" src="Bach/arp_jsbach_999.svg"></div>
+          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
         </div>
-        <div class="subtitle">Related :</div>
-        <ul>
-          <li><a href="#">J. S. Bach</a></li>
-          <li><a href="#"></a></li>
-        </ul>
+        <div class="entry-subtitle">Related :</div>
+        <ul><li><a href="#"></a></li></ul>
       </div>
     </div>
+
   </div>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    /* =========================================================
+       TABS LOGIC
+    ========================================================= */
+    const tabs = document.querySelectorAll(".tab-item");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            panels.forEach(p => p.style.display = "none");
+
+            tab.classList.add("active");
+            const id = tab.dataset.target;
+            document.getElementById(id).style.display = "block";
+        });
+    });
+
+    /* =========================================================
+       ENTRY TOGGLE LOGIC
+    ========================================================= */
+    document.querySelectorAll(".entry-title").forEach(title => {
+        title.addEventListener("click", () => {
+            const content = title.nextElementSibling;
+            const isOpen = content.style.display === "block";
+            content.style.display = isOpen ? "none" : "block";
+        });
+    });
+
+    /* =========================================================
+       ZOOM LOGIC
+    ========================================================= */
+    document.querySelectorAll('.score-viewer').forEach(viewer => {
+        const slider = viewer.querySelector('.zoom-range');
+        const image  = viewer.querySelector('.score-svg');
+
+        slider.addEventListener('input', () => {
+            image.style.transform = `scale(${slider.value})`;
+        });
+    });
+});
+
+</script>
+
 </body>
 </html>
-
-
