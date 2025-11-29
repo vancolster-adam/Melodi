@@ -1,0 +1,20 @@
+<svg width="600" height="160" viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (transparent by default, white for preview) -->
+  <rect width="600" height="160" fill="none" />
+
+  <!-- Main Title -->
+  <text x="50%" y="60" text-anchor="middle" font-size="24" font-family="Georgia, serif" fill="#111" letter-spacing="2">
+    A PRACTICAL DICTIONARY OF MUSIC
+  </text>
+
+  <!-- Subtitle -->
+  <text x="50%" y="90" text-anchor="middle" font-size="14" font-family="Georgia, serif" fill="#555">
+    by Adam Vancolster de Rosa
+  </text>
+
+  <!-- Symbol: minimalist stylized music shape -->
+  <path d="M40 120 q10 -30 20 0 q10 30 20 0" stroke="#111" stroke-width="2" fill="none" />
+
+  <!-- Decorative line -->
+  <line x1="100" y1="110" x2="500" y2="110" stroke="#ccc" stroke-width="1" stroke-dasharray="2,4"/>
+</svg>

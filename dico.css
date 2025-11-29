@@ -1,0 +1,154 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+                                                /* Header */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* .logo {
+    width: 10px;
+}
+
+.logo svg {
+    max-height: 8px;
+} */
+
+nav {
+    display: flex;
+    gap: 30px;
+    margin-left: 26vh;
+    flex-grow: 1; 
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-item > a {
+    text-decoration: none;
+    color: #111;
+    font-size: 16px;
+    padding: 10px;
+    display: block;
+}
+
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    display: none;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.submenu a {
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
+
+.submenu a:hover {
+    background-color: #f0f0f0;
+}
+
+.menu-item:hover .submenu {
+    display: flex;
+}
+
+.search-bar {
+    margin-left: auto;
+}
+
+.search-bar input {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+                                    /* Content */
+.new-section {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.entry {
+    border: 1px solid #ccc;
+    padding: 2.6vh;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.title {
+    font-weight: bold;
+    cursor: pointer;
+    color: #2c3e50;
+}
+
+.content {
+    display: none;
+    margin-top: 10px;
+}
+
+.subtitle {
+    font-style: italic;
+    margin-top: 10px;
+}
+
+ul {
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+.show-more {
+    display: inline-block;
+    margin-top: 5px;
+    color: #007BFF;
+    cursor: pointer;
+}
+
+.svg-container {
+    border: none; 
+    max-height: 42vh; 
+    overflow: auto; 
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); 
+    border-radius: 8px;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+.svg-image {
+    transform-origin: top left; /* important pour que le zoom se fasse depuis le coin */
+    display: block;
+    margin: 0 auto;
+    transform-origin: top center;
+    transition: transform 0.2s ease;
+}
+
+.zoom-controls {
+    text-align: center;
+    margin-bottom: 20px;
+}

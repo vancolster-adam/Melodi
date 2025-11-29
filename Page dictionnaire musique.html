@@ -1,0 +1,218 @@
+<!-- Stucture -->
+
+
+<!--
+
+Logo(svg) | 
+
+-->
+
+<!--
+
+Main-Page : 
+Header : Composers - Styles - ... 
+
+<div>
+    New :
+</div> 
+<div>                                            <---- Unfoldable
+    Harmony & Chord Progressions : Mozart - K397 <---- Title (link)
+    <iframe>SVG</iframe>                         <---- Only when unfolded!!!!!
+        added in :                               <---- Sub-title
+            - Mozart                             <---- List of links to other pages (add "show more" Button)
+            - Analyse 2025
+            -  Harmony & Chord Progressions      
+            - Classical Progression
+            - whatever .....
+</div>
+<div>
+    Apreggio Paterns : Mozart - K397
+        added in : .....
+</div>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+   <link rel="stylesheet" href="dico.css">
+   <script src="dico.js" defer></script>
+  <title>Main Page</title>
+</head>
+<body>
+  
+<header>
+  <!--
+    <div class="logo">
+      <img src="logo.svg" alt="Site Logo">
+    </div>
+    -->
+    <nav>
+      <div class="menu-item">
+        <a href="#">Composers & Others</a>
+        <div class="submenu">
+          <a href="#">Bach</a> <!-- When hover show all Bachs-->
+          <a href="#">Beethoven</a> <!-- when hover change content to full name -->
+          <a href="#">Brahms</a>
+          <a href="#">Chopin</a>
+          <a href="#">Debussy</a>
+          <a href="#">Mozart</a>
+          <a href="#">Vancolster de Rosa</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="#">Styles</a>
+        <div class="submenu">
+          <a href="#">Renaissance</a> <!-- when hover change add date to date -->
+          <a href="#">Baroque</a>
+          <a href="#">Classical</a>
+          <a href="#">Romantic</a>
+          <a href="#">Modern</a>
+          <a href="#">Jazz</a>
+          <a href="#">Pop</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="#">Harmony & Chord Progression</a>
+        <div class="submenu">
+          <a href="#">Bass Lines</a>
+          <a href="#">Chromatic Harmony</a>
+          <a href="#">Complex Chords</a>
+          <a href="#">Counterpoint</a>
+          <a href="#">Four Voice Harmony</a>
+          <a href="#">Key Changes</a>
+          <a href="#">Pedal Points/Tones</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="#">Structures and Forms</a>
+        <div class="submenu">
+          <a href="#">Sonata Form</a>
+          <a href="#">Menuet</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="#">Rythme & Patterns</a>
+        <div class="submenu">
+          <a href="#">Arpeggios</a>
+          <a href="#">Dances</a>
+          <a href="#">Others</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="#">Instrumentation</a>
+        <div class="submenu">
+          <a href="#">Chamber Music</a>
+          <a href="#">Wood Winds</a>
+          <a href="#">Brass</a>
+          <a href="#">Percussion</a>
+          <a href="#">Voices & choir</a>
+          <a href="#">Strings</a>
+          <a href="#">Bands</a>
+          <a href="#">Others</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+  </header>
+
+  <div>
+    <span class="new-section">Colour Legend : </span>
+    <ul>
+      <li>Red Notes (⤻) : Pedal Tone</li>
+      <li>Blue Note : Descending Line</li>
+      <li>Green Note : Chromatic Descending Line </li>
+      <li>Blue Roman Numeral : Borrowed from relative tonality<br>Mostly browed from minor tonality : ii, iv, #vii7/</li>
+      <li>Orange Roman Numeral : Secondary Dominants</li>
+      <li>Purple Roman Numeral : Minor natural & modal harmony</li>
+      <li>Red Roman Numeral : </li>
+    </ul>
+  </div>
+  <div>
+    <span class="new-section">add # to vii's in minor</span>
+  </div>
+  <div>
+    <span class="new-section">Latest :</span>
+    <div class="entry">
+      <div class="title">
+        Harmony & Chord Progressions : F. Chopin - Op. 28, No. 4 : Prelude in Em
+      </div>
+      <div class="content">
+        <div class="viewer-container">
+          <div class="svg-container"><img class="svg-image" src="Chopin/hcp_chopin_28_4.svg" alt="Partition SVG"></div>
+          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+        </div>
+        <div class="subtitle">Related :</div>
+        <ul>
+          <li><a href="#">F. Chopin</a></li>
+          <li><a href="#">Analyse 2025</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Key Changes</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Chromatic Harmony</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Bass Line</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Romantic Chord Progression</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="title">
+        Harmony & Chord Progressions : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
+      </div>
+      <div class="content">
+        <div class="viewer-container">
+          <div class="svg-container"><img class="svg-image" src="Mozart/hcp_mzt_k397.svg" alt="Partition SVG"></div>
+          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+        </div>
+        <div class="subtitle">Related :</div>
+        <ul>
+          <li><a href="#">W. A. Mozart</a></li>
+          <li><a href="#">Analyse 2025</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Key Changes</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Pedal Points</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Chromatic Harmony</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Descending Bass Line</a></li>
+          <li><a href="#">Harmony & Chord Progressions : Classical Chord Progression</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="title" >
+        Arpeggio Patterns : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
+      </div>
+      <div class="content">
+        <div class="viewer-container">
+          <div class="svg-container"><img class="svg-image" src="Mozart/arp_mzt_k397.svg" alt="Partition SVG"></div>
+          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+        </div>
+        <div class="subtitle">Related :</div>
+        <ul>
+          <li><a href="#">Mozart</a></li>
+          <li><a href="#">Arpeggios & Textures</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="title" >
+        Arpeggio Patterns : J. S. Bach - BWV 999
+      </div>
+      <div class="content">
+        <div class="viewer-container">
+          <div class="svg-container"><img class="svg-image" src="Bach/arp_jsbach_999.svg" alt="Partition SVG"></div> 
+          <div class="zoom-controls"><input type="range" class="zoom-slider" min="0.5" max="3" step="0.1" value="1"></div>
+        </div>
+        <div class="subtitle">Related :</div>
+        <ul>
+          <li><a href="#">J. S. Bach</a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
