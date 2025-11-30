@@ -1,10 +1,33 @@
+<!--
+
+hcp : 
+  - cbl : Chromatic Bass Line
+  - chm : Chromatic Harmony
+  - cml : Chromatic melodic Line
+  - cplxcd : Complex chords
+      - aug6fr : French Augmented 6
+  - dbl : Descendig Bass Line
+  - fvhm : Four Voice Harmony
+  - Key Changes : if starts by "kch"
+      - kch4 : Up a Perfect 4th   
+  - mjk : Major Key 
+      - mjk-c : C major
+  - mnk : Minor Key
+      - mnk-e : E minor
+  - pdlp : Pedal point
+
+Composer : 
+ in filter order by last name
+
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Static Menu Windows</title>
+  <title>Melodi</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Anaheim&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
 
 
@@ -14,8 +37,8 @@
 body {
     font-family: Arial, sans-serif;
     margin: 40px;
-    background: #f3f4f6;
     color: #222;
+    background: linear-gradient(#97598D, #9198e5);
 }
 
 /* =========================================================
@@ -32,15 +55,16 @@ body {
     font-weight: 400;
     margin: 0;
     letter-spacing: 1px;
-    color: #222;
+    color: #e9D9D1;
 }
 
 
 .title-sub {
     font-size: 1.4em;
+    font-family: "Anaheim", sans-serif;
     font-weight: 400;
     margin: 6px 0 0;
-    color: #444;
+    color: #444444c9;
 }
 
 .title-author {
@@ -48,7 +72,7 @@ body {
     font-family: "Nothing You Could Do", cursive;
     font-weight: 300;
     margin: 4px 0 0;
-    color: #666;
+    color: #9198e5ac;
 }
 
 
@@ -67,11 +91,12 @@ ul {
    SCORE ENTRIES
 ========================================================= */
 .score-entry {
-    border: 1px solid #ccc;
+    border: 1px solid #efebeb;
     padding: 2.6vh;
     margin-bottom: 15px;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #FAF7F5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
 }
 
 .entry-title {
@@ -95,6 +120,7 @@ ul {
 ========================================================= */
 .svg-scrollbox {
     border: none;
+    background: linear-gradient(#97598d17 50%, #9198e522);
     max-height: 42vh;
     overflow: auto;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
@@ -123,21 +149,22 @@ ul {
 ========================================================= */
 .tabs-bar {
     display: flex;
-    gap: 0;
+    gap: 1em;
     position: relative;
-    padding-left: 4px;
+     justify-content: center; /* center all tab items horizontally */
 }
 
 .tab-item {
     padding: 10px 22px;
+    margin: 0.3em;
+    margin-bottom: 0.5em;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.65);
+    background: #612346be;
     backdrop-filter: blur(8px);
-    border: 1px solid #d0d0d0;
     border-bottom: none;
-    border-radius: 10px 10px 0 0;
-    margin-right: 6px;
+    border-radius: 15px;
     transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    transition: transform 0.25s ease;
     user-select: none;
     font-size: 15px;
     line-height: 1.3;
@@ -146,40 +173,32 @@ ul {
 .tab-item:hover {
     background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transform: scale(1.1); /* or any size */
 }
 
 .tab-item.active {
-    background: #ffffff;
-    color: #111;
+  margin-bottom: 0;
+  color: #38132A;
+ background: linear-gradient(#ffffff45 8%, #ffffff88);
     font-weight: 600;
-    box-shadow:
-        0 -1px 4px rgba(0,0,0,0.04),
-        0 4px 10px -3px rgba(0,0,0,0.08);
-    border-color: #bcbcbc;
+    box-shadow:0 -1px 4px rgba(0,0,0,0.04);
+    border-radius: 10px 10px 0 0;
+    transition: background 0.25s ease;
+    z-index: 6;
 }
 
-.tabs-bar::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 2px;
-    background: #cccccc;
-    z-index: 0;
+.tab-item.active:hover {
+    transform: scale(1); /* or any size */
 }
 
 /* =========================================================
    TAB PANELS
 ========================================================= */
-.panel-container {
-    margin-top: 0;
+.tab-container {
     padding: 18px 25px;
-    min-height: 140px;
-    background: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 0 12px 12px 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    background: #ffffff88;
+    border-radius: 12px 12px 12px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
     position: relative;
     z-index: 5;
 }
@@ -208,84 +227,27 @@ ul {
 </head>
 
 <body>
+  <header class="page-header">
+      <h1 class="title-main">Melodi</h1>
+      <h2 class="title-sub">A Music Dictionary for Composers</h2>
+      <h3 class="title-author">by Adam Vancolster de Rosa</h3>
+  </header>
 
-<header class="page-header">
-    <h1 class="title-main">Melodi</h1>
-    <h2 class="title-sub">A Music Dictionary for Composers</h2>
-    <h3 class="title-author">by Adam Vancolster de Rosa</h3>
-</header>
-
-
-<div class="tabs-bar">
-  <div class="tab-item" data-target="all">All</div>
-  <div class="tab-item" data-target="composers">Composers & Others</div>
-  <div class="tab-item" data-target="styles">Styles</div>
-  <div class="tab-item" data-target="harmony">Harmony & Chord Progressions</div>
-  <div class="tab-item" data-target="forms">Structures & Forms</div>
-  <div class="tab-item" data-target="rhythm">Rhythm & Patterns</div>
-  <div class="tab-item" data-target="instrumentation">Instrumentation</div>
-</div>
-
-<div class="panel-container">
-
-  <div class="tab-panel" id="all">
-    <a href="#">Latest Adds</a>
-    <a href="#">Alphabetical</a>
-  </div>
-  
-  <div class="tab-panel" id="composers">
-    <a href="#">Bach</a>
-    <a href="#">Beethoven</a>
-    <a href="#">Brahms</a>
-    <a href="#">Chopin</a>
-    <a href="#">Debussy</a>
-    <a href="#">Mozart</a>
-    <a href="#">Vancolster de Rosa</a>
+  <div class="tabs-bar">
+    <div class="tab-item" data-target="all">All</div>
+    <div class="tab-item" data-target="composers">Composers</div>
+    <div class="tab-item" data-target="styles">Styles</div>
+    <div class="tab-item" data-target="harmony">Harmony & Chord Progressions</div>
+    <div class="tab-item" data-target="forms">Structures & Forms</div>
+    <div class="tab-item" data-target="rhythm">Rhythm & Patterns</div>
+    <div class="tab-item" data-target="instrumentation">Instrumentation</div>
   </div>
 
-  <div class="tab-panel" id="styles">
-    <a href="#">Renaissance</a>
-    <a href="#">Baroque</a>
-    <a href="#">Classical</a>
-    <a href="#">Romantic</a>
-    <a href="#">Modern</a>
-    <a href="#">Jazz</a>
-    <a href="#">Pop</a>
-  </div>
+<div class="tab-container">
 
-  <div class="tab-panel" id="harmony">
-    <a href="#">Bass Lines</a>
-    <a href="#">Chromatic Harmony</a>
-    <a href="#">Complex Chords</a>
-    <a href="#">Counterpoint</a>
-    <a href="#">Four Voice Harmony</a>
-    <a href="#">Key Changes</a>
-    <a href="#">Pedal Points</a>
-  </div>
+  <div class="filter"></div>
 
-  <div class="tab-panel" id="forms">
-    <a href="#">Sonata Form</a>
-    <a href="#">Menuet</a>
-  </div>
-
-  <div class="tab-panel" id="rhythm">
-    <a href="#">Arpeggios</a>
-    <a href="#">Dances</a>
-    <a href="#">Others</a>
-  </div>
-
-  <div class="tab-panel" id="instrumentation">
-    <a href="#">Chamber Music</a>
-    <a href="#">Wood Winds</a>
-    <a href="#">Brass</a>
-    <a href="#">Percussion</a>
-    <a href="#">Voices & Choir</a>
-    <a href="#">Strings</a>
-    <a href="#">Bands</a>
-    <a href="#">Others</a>
-  </div>
-
-  <div>
+  <div class="notes">
     <span class="section-title">Colour Legend : </span>
     <ul>
       <li>Red Notes (⤻) : Pedal Tone</li>
@@ -304,9 +266,15 @@ ul {
 
   <div>
     <span class="section-title">Latest :</span>
+    <hr>
 
     <div class="score-entry">
-      <div class="entry-title" data-category="hpc">
+      <div class="entry-title" 
+        data-composer="F. Chopin"
+        data-style="Romantic"  
+        data-hcp="aug6fr, cbl, chm, fvhm, kch4, mnk-e" 
+        data-work="Prelude" 
+        data-instrument="Piano">
         F. Chopin - Op. 28, No. 4 : Prelude in Em
       </div>
       <div class="entry-content">
@@ -320,7 +288,12 @@ ul {
     </div>
 
     <div class="score-entry">
-      <div class="entry-title" data-category="hpc">
+      <div class="entry-title" 
+        data-composer="W. A. Mozart"
+        data-style="Classical"  
+        data-hcp="cml, chm, kch5, mnk-a, pdlp" 
+        data-work="Fantasia" 
+        data-instrument="Piano">
         Harmony & Chord Progressions : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
       </div>
       <div class="entry-content">
@@ -334,7 +307,12 @@ ul {
     </div>
 
     <div class="score-entry">
-      <div class="entry-title" data-category="arp">
+      <div class="entry-title" 
+        data-composer="W. A. Mozart"
+        data-style="Classical"
+        data-work="Fantasia" 
+        data-instrument="Piano"
+        data-rhythm="arp">
         Arpeggio Patterns : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
       </div>
       <div class="entry-content">
@@ -348,7 +326,12 @@ ul {
     </div>
 
     <div class="score-entry">
-      <div class="entry-title" data-category="arp">
+      <div class="entry-title" 
+        data-composer="J. S. Mozart"
+        data-style="Baroque"
+        data-work="Prelude" 
+        data-instrument="Harpsichord"
+        data-rhythm="arp">
         Arpeggio Patterns : J. S. Bach - BWV 999
       </div>
       <div class="entry-content">
