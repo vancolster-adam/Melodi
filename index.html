@@ -1,359 +1,591 @@
-<!--
-
-hcp : 
-  - cbl : Chromatic Bass Line
-  - chm : Chromatic Harmony
-  - cml : Chromatic melodic Line
-  - cplxcd : Complex chords
-      - aug6fr : French Augmented 6
-  - dbl : Descendig Bass Line
-  - fvhm : Four Voice Harmony
-  - Key Changes : if starts by "kch"
-      - kch4 : Up a Perfect 4th   
-  - mjk : Major Key 
-      - mjk-c : C major
-  - mnk : Minor Key
-      - mnk-e : E minor
-  - pdlp : Pedal point
-
-Composer : 
- in filter order by last name
-
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Melodi</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Anaheim&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
 
+    /* =========================================================
+                            BASE 
+    ========================================================= */
+
+    body {
+      padding: 0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #222;
+      background: linear-gradient(#97598D, #9198e5);
+      background-attachment: fixed; 
+      text-align: center;
+    }
 
     /* =========================================================
-   BASE
-========================================================= */
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    color: #222;
-    background: linear-gradient(#97598D, #9198e5);
-}
+    PAGE HEADER
+    ========================================================= */
+    .page-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+        backdrop-filter: blur(0px);
+        opacity: 1;
+    }
+                                        
+    .title-main {
+        font-family: 'Fascinate Inline', cursive;
+        font-size: 2.8em;
+        font-weight: 400;
+        margin: 0;
+        letter-spacing: 1px;
+        color: #E1CBC0;
+        text-shadow: 0 0 8px black;
+    }
 
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-.page-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
+    .title-sub {
+        font-size: 1.4em;
+        font-family: "Anaheim", sans-serif;
+        font-weight: 400;
+        margin: 6px 0 0;
+        color: #444444df;
+    }
 
-.title-main {
-    font-family: 'Fascinate Inline', cursive;
-    font-size: 2.8em;
-    font-weight: 400;
-    margin: 0;
-    letter-spacing: 1px;
-    color: #e9D9D1;
-}
+    .title-author {
+        font-size: 1em;
+        font-family: "Nothing You Could Do", cursive;
+        font-weight: 300;
+        margin: 4px 0 0;
+        color: rgba(0, 255, 255, 0.709);
+        opacity: 1;
+        max-height: 40px;
+        overflow: hidden;
+    }
 
+    .title-author:hover {
+        transform: scale(1.1);
+    }
 
-.title-sub {
-    font-size: 1.4em;
-    font-family: "Anaheim", sans-serif;
-    font-weight: 400;
-    margin: 6px 0 0;
-    color: #444444c9;
-}
+    .title-main.shrink {
+        transform: scale(0.85);
+    }
+    .title-sub.shrink {
+        transform: scale(0.8);
+    }
+    
+    .title-author.shrink {
+        opacity: 0;
+        max-height: 0;
+    }
 
-.title-author {
-    font-size: 1em;
-    font-family: "Nothing You Could Do", cursive;
-    font-weight: 300;
-    margin: 4px 0 0;
-    color: #9198e5ac;
-}
+    .section-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
 
+    ul {
+        margin-top: 5px;
+        padding-left: 20px;
+    }
 
-.section-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
+    .page-main {
+        padding: 40px;
+        margin-top: 12%;
+        text-align: left;
+        z-index: 1;
+        position: relative;
+    }
 
-ul {
-    margin-top: 5px;
-    padding-left: 20px;
-}
+    .legend {
+        display: none;
+    }
 
-/* =========================================================
-   SCORE ENTRIES
-========================================================= */
-.score-entry {
-    border: 1px solid #efebeb;
-    padding: 2.6vh;
-    margin-bottom: 15px;
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding:0; 
+        background:#612346be; 
+        color:#E1CBC0; 
+        text-align:center;  
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        transition: backdrop-filter 0.25s ease, opacity 0.25s ease;
+    }
+
+    /* =========================================================
+    SCORE ENTRIES
+    ========================================================= */
+    .score-entry {
+        border: 1px solid #efebeb;
+        padding: 2.6vh;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        background-color: #FAF7F5;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
+    }
+
+    .entry-title {
+        font-weight: bold;
+        cursor: pointer;
+        color: #2c3e50;
+    }
+
+    .entry-content {
+        display: none;
+        margin-top: 10px;
+    }
+
+    .entry-subtitle {
+        font-style: italic;
+        margin-top: 10px;
+    }
+
+    /* =========================================================
+    SCORE VIEWER (SVG + ZOOM)
+    ========================================================= */
+    .svg-scrollbox {
+        border: none;
+        background: linear-gradient(#97598d17 50%, #9198e522);
+        max-height: 42vh;
+        overflow: auto;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .svg-scrollbox::-webkit-scrollbar {
+        display: none;
+    }
+
+    .score-svg {
+        transform-origin: top center;
+        display: block;
+        margin: 0 auto;
+        transition: transform 0.2s ease;
+    }
+
+    .zoom-bar {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* =========================================================
+    TABS BAR
+    ========================================================= */
+    .tabs-bar {
+        display: flex;
+        gap: 1em;
+        position: relative;
+        justify-content: center;
+    }
+
+    .tab-item {
+        padding: 10px 22px;
+        margin: 0.3em;
+        margin-bottom: 0.5em;
+        cursor: pointer;
+        color: #e9d9d1b5;
+        background: #612346be;
+        backdrop-filter: blur(8px);
+        border-bottom: none;
+        border-radius: 15px;
+        box-shadow: 0 0px 6px #e1cbc0af;
+        transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+        transition: transform 0.25s ease;
+        user-select: none;
+        font-size: 15px;
+        line-height: 1.3;
+    }
+
+    .tab-item:hover {
+        background: #e1cbc0af;
+        color: #222;
+        box-shadow: 0 0px 6px #612346be;
+        transform: scale(1.1);
+    }
+
+    .tab-item.active {
+      margin-bottom: 0;
+      color: #E1CBC0;
+      background: linear-gradient(#ffffff45 8%, #ffffff88);
+      font-weight: 600;
+      box-shadow:0 -1px 4px rgba(0,0,0,0.04);
+      border-radius: 10px 10px 0 0;
+      transition: background 0.25s ease;
+      z-index: 6;
+    }
+
+    .tab-item.active:hover {
+        transform: scale(1);
+    }
+
+    /* =========================================================
+    TAB PANELS
+    ========================================================= */
+
+    .tab-container {
+        padding: 18px 25px;
+        background: #ffffff88;
+        backdrop-filter: blur(8px);
+        border-radius: 12px 12px 12px 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
+        position: relative;
+        z-index: 5;
+    }
+
+    .tab-panel {
+        display: none;
+    }
+
+    #all {
+        display: block;
+    }
+
+    .tab-panel a {
+        display: block;
+        padding: 6px 0;
+        font-size: 15px;
+        text-decoration: none;
+        color: #222;
+        transition: color 0.2s ease;
+    }
+
+    .tab-panel a:hover {
+        color: #0056d6;
+    }
+
+    /* =========================================================
+    ICONS & BUBBLES (centralisé)
+    ========================================================= */
+
+    .entry-icon {
+        font-family: 'Material Icons Outlined';
+        font-size: 20px;
+        margin-left: 8px;
+        cursor: pointer;
+        vertical-align: middle;
+        color: #444;
+        opacity: 0;
+        transform: scale(0.6);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        pointer-events: none; /* invisible = non cliquable */
+    }
+    .entry-icon.visible {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto; /* redeviens cliquable */
+    }
+
+    .entry-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .entry-title-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .entry-help {
+        font-family: 'Material Icons Outlined';
+        font-size: 20px;
+        color: #444444ba;
+        opacity: 0;
+        transform: scale(0.6);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        pointer-events: none; /* non cliquable */
+    }
+    .entry-help.visible {
+        opacity: 1;
+        transform: scale(1.3);
+        pointer-events: auto;
+    }
+
+.legend-tooltip {
+    position: absolute;
+    bottom: -27px;
+
+    /* ANCRAGE DROIT + DÉCALAGE VERS LE CENTRE */
+    right: 2vh; /* décale la bulle vers la gauche */
+
+    transform: translateY(100%);
+
+    max-width: 260px;
+    background: rgba(0, 157, 255, 0.872);
+    padding: 10px 14px;
     border-radius: 8px;
-    background-color: #FAF7F5;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
-}
-
-.entry-title {
-    font-weight: bold;
-    cursor: pointer;
-    color: #2c3e50;
-}
-
-.entry-content {
-    display: none;
-    margin-top: 10px;
-}
-
-.entry-subtitle {
-    font-style: italic;
-    margin-top: 10px;
-}
-
-/* =========================================================
-   SCORE VIEWER (SVG + ZOOM)
-========================================================= */
-.svg-scrollbox {
-    border: none;
-    background: linear-gradient(#97598d17 50%, #9198e522);
-    max-height: 42vh;
-    overflow: auto;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-.svg-scrollbox::-webkit-scrollbar {
-    display: none;
-}
-
-.score-svg {
-    transform-origin: top center;
-    display: block;
-    margin: 0 auto;
-    transition: transform 0.2s ease;
-}
-
-.zoom-bar {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* =========================================================
-   TABS BAR
-========================================================= */
-.tabs-bar {
-    display: flex;
-    gap: 1em;
-    position: relative;
-     justify-content: center; /* center all tab items horizontally */
-}
-
-.tab-item {
-    padding: 10px 22px;
-    margin: 0.3em;
-    margin-bottom: 0.5em;
-    cursor: pointer;
-    background: #612346be;
-    backdrop-filter: blur(8px);
-    border-bottom: none;
-    border-radius: 15px;
-    transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
-    transition: transform 0.25s ease;
-    user-select: none;
-    font-size: 15px;
-    line-height: 1.3;
-}
-
-.tab-item:hover {
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    transform: scale(1.1); /* or any size */
-}
-
-.tab-item.active {
-  margin-bottom: 0;
-  color: #38132A;
- background: linear-gradient(#ffffff45 8%, #ffffff88);
-    font-weight: 600;
-    box-shadow:0 -1px 4px rgba(0,0,0,0.04);
-    border-radius: 10px 10px 0 0;
-    transition: background 0.25s ease;
-    z-index: 6;
-}
-
-.tab-item.active:hover {
-    transform: scale(1); /* or any size */
-}
-
-/* =========================================================
-   TAB PANELS
-========================================================= */
-.tab-container {
-    padding: 18px 25px;
-    background: #ffffff88;
-    border-radius: 12px 12px 12px 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
-    position: relative;
-    z-index: 5;
-}
-
-.tab-panel {
-    display: none;
-}
-
-#all {
-    display: block;
-}
-
-.tab-panel a {
-    display: block;
-    padding: 6px 0;
-    font-size: 15px;
-    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    font-size: 14px;
     color: #222;
-    transition: color 0.2s ease;
+    z-index: 20;
+    display: none;
 }
 
-.tab-panel a:hover {
-    color: #0056d6;
+.legend-tooltip.show {
+    display: block;
 }
+
+
+    /* used during measurement: visible but placed offscreen so width/height can be measured */
+    .legend-tooltip.measuring {
+        display: block;
+        left: -9999px !important;
+        top: -9999px !important;
+    }
+
+    /* final visible state (position set inline by script) */
+    .legend-tooltip.show {
+        display: block;
+    }
+
   </style>
 </head>
-
 <body>
-  <header class="page-header">
-      <h1 class="title-main">Melodi</h1>
-      <h2 class="title-sub">A Music Dictionary for Composers</h2>
-      <h3 class="title-author">by Adam Vancolster de Rosa</h3>
-  </header>
+    <header class="page-header">
+        <h1 class="title-main">Melodi</h1>
+        <h2 class="title-sub">A Music Dictionary for Composers</h2>
+        <h3 class="title-author">by Adam Vancolster de Rosa</h3>
+    </header>
 
-  <div class="tabs-bar">
-    <div class="tab-item" data-target="all">All</div>
-    <div class="tab-item" data-target="composers">Composers</div>
-    <div class="tab-item" data-target="styles">Styles</div>
-    <div class="tab-item" data-target="harmony">Harmony & Chord Progressions</div>
-    <div class="tab-item" data-target="forms">Structures & Forms</div>
-    <div class="tab-item" data-target="rhythm">Rhythm & Patterns</div>
-    <div class="tab-item" data-target="instrumentation">Instrumentation</div>
-  </div>
-
-<div class="tab-container">
-
-  <div class="filter"></div>
-
-  <div class="notes">
-    <span class="section-title">Colour Legend : </span>
-    <ul>
-      <li>Red Notes (⤻) : Pedal Tone</li>
-      <li>Blue Note : Descending Line</li>
-      <li>Green Note : Chromatic Descending Line</li>
-      <li>Blue Roman Numeral : Borrowed from relative tonality</li>
-      <li>Orange Roman Numeral : Secondary Dominants</li>
-      <li>Purple Roman Numeral : Minor natural & modal harmony</li>
-      <li>Red Roman Numeral :</li>
-    </ul>
-  </div>
-
-  <div>
-    add # to vii's in minor
-  </div>
-
-  <div>
-    <span class="section-title">Latest :</span>
-    <hr>
-
-    <div class="score-entry">
-      <div class="entry-title" 
-        data-composer="F. Chopin"
-        data-style="Romantic"  
-        data-hcp="aug6fr, cbl, chm, fvhm, kch4, mnk-e" 
-        data-work="Prelude" 
-        data-instrument="Piano">
-        F. Chopin - Op. 28, No. 4 : Prelude in Em
-      </div>
-      <div class="entry-content">
-        <div class="score-viewer">
-          <div class="svg-scrollbox"><img class="score-svg" src="Chopin/hcp_chopin_28_4.svg"></div>
-          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
+    <div class="page-main">
+        <div class="tabs-bar">
+            <div class="tab-item" id="all">All</div>
+            <div class="tab-item" id="composers">Composers</div>
+            <div class="tab-item" id="styles">Styles</div>
+            <div class="tab-item" id="harmony">Harmony & Chord Progressions</div>
+            <div class="tab-item" id="forms">Structures & Forms</div>
+            <div class="tab-item" id="rhythm">Rhythm & Patterns</div>
+            <div class="tab-item" id="instrumentation">Instrumentation</div>
         </div>
-        <div class="entry-subtitle">Related :</div>
-        <ul><li><a href="#"></a></li></ul>
-      </div>
+
+        <div class="tab-container">
+
+            <div class="filter">
+                <div class="filter-list"></div>
+            </div>
+            <div>
+                add # to vii's in minor
+            </div>
+            <span class="section-title">Latest :</span>
+            <hr>
+            <div class="entries-list">
+                <img src="https://ik.imagekit.io/AdamVancolsterdeRosa/Dico%20svg/hcp_chopin_28_4.svg" 
+                    alt="F. Chopin - Op. 28, No. 4 : Prelude in Em" 
+                    class="score-min" 
+                    data-composer="F. Chopin"
+                    data-style="Romantic"  
+                    data-hcp="aug6fr, cbl, chm, fvhm, kch4, mnk-e" 
+                    data-work="Prelude" 
+                    data-instrument="Piano"
+                    data-legend="legendHcp">
+
+                <img src="https://ik.imagekit.io/AdamVancolsterdeRosa/Dico%20svg/hcp_mzt_k397.svg"
+                    alt="Harmony & Chord Progressions : W. A. Mozart - Fantasia No. 3 in D minor, K. 397"
+                    class="score-min"
+                    data-composer="W. A. Mozart"
+                    data-style="Classical"  
+                    data-hcp="cml, chm, kch5, mnk-a, pdlp" 
+                    data-work="Fantasia" 
+                    data-instrument="Piano"
+                    data-legend="legendHcp">
+
+                <img src="https://ik.imagekit.io/AdamVancolsterdeRosa/Dico%20svg/arp_mzt_k397.svg"
+                    alt="Arpeggio Patterns : W. A. Mozart - Fantasia No. 3 in D minor, K. 397"
+                    class="score-min" 
+                    data-composer="W. A. Mozart"
+                    data-style="Classical"
+                    data-work="Fantasia" 
+                    data-instrument="Piano"
+                    data-rhythm="arp"
+                    data-legend="legendOther">
+
+                <img src="https://ik.imagekit.io/AdamVancolsterdeRosa/Dico%20svg/arp_jsbach_999.svg" 
+                    alt="Arpeggio Patterns : J. S. Bach - BWV 999"
+                    class="score-min" 
+                    data-composer="J. S. Bach"
+                    data-style="Baroque"
+                    data-work="Prelude" 
+                    data-instrument="Harpsichord"
+                    data-rhythm="arp">
+            </div>
+        </div>
+    </div>
+    <footer>
+    <div style="margin-bottom:10px; font-weight:bold;">
+        Melodi — Music Dictionary for Composers
     </div>
 
-    <div class="score-entry">
-      <div class="entry-title" 
-        data-composer="W. A. Mozart"
-        data-style="Classical"  
-        data-hcp="cml, chm, kch5, mnk-a, pdlp" 
-        data-work="Fantasia" 
-        data-instrument="Piano">
-        Harmony & Chord Progressions : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
-      </div>
-      <div class="entry-content">
-        <div class="score-viewer">
-          <div class="svg-scrollbox"><img class="score-svg" src="Mozart/hcp_mzt_k397.svg"></div>
-          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
-        </div>
-        <div class="entry-subtitle">Related :</div>
-        <ul><li><a href="#"></a></li></ul>
-      </div>
+    <div style="margin:6px 0;">
+        <a href="#" style="color:#E1CBC0; text-decoration:none; margin:0 10px;">About</a>
+        <a href="#" style="color:#E1CBC0; text-decoration:none; margin:0 10px;">Contact</a>
+        <a href="#" style="color:#E1CBC0; text-decoration:none; margin:0 10px;">Privacy Policy</a>
     </div>
 
-    <div class="score-entry">
-      <div class="entry-title" 
-        data-composer="W. A. Mozart"
-        data-style="Classical"
-        data-work="Fantasia" 
-        data-instrument="Piano"
-        data-rhythm="arp">
-        Arpeggio Patterns : W. A. Mozart - Fantasia No. 3 in D minor, K. 397
-      </div>
-      <div class="entry-content">
-        <div class="score-viewer">
-          <div class="svg-scrollbox"><img class="score-svg" src="Mozart/arp_mzt_k397.svg"></div>
-          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
-        </div>
-        <div class="entry-subtitle">Related :</div>
-        <ul><li><a href="#"></a></li></ul>
-      </div>
+    <div style="margin-top:10px; font-size:0.9em;">
+        © 2025 Adam Vancolster de Rosa — All rights reserved.
     </div>
-
-    <div class="score-entry">
-      <div class="entry-title" 
-        data-composer="J. S. Mozart"
-        data-style="Baroque"
-        data-work="Prelude" 
-        data-instrument="Harpsichord"
-        data-rhythm="arp">
-        Arpeggio Patterns : J. S. Bach - BWV 999
-      </div>
-      <div class="entry-content">
-        <div class="score-viewer">
-          <div class="svg-scrollbox"><img class="score-svg" src="Bach/arp_jsbach_999.svg"></div>
-          <div class="zoom-bar"><input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1"></div>
+    </footer>
+    <div class="legend">
+        <div id="legendHcp">
+            <span>Colour Legend : </span>
+            <ul>
+            <li>Red Notes (⤻) : Pedal Tone</li>
+            <li>Blue Note : Descending Line</li>
+            <li>Green Note : Chromatic Descending Line</li>
+            <li>Blue Roman Numeral : Borrowed from relative tonality</li>
+            <li>Orange Roman Numeral : Secondary Dominants</li>
+            <li>Purple Roman Numeral : Minor natural & modal harmony</li>
+            <li>Red Roman Numeral :</li>
+            </ul>
         </div>
-        <div class="entry-subtitle">Related :</div>
-        <ul><li><a href="#"></a></li></ul>
-      </div>
+        <div id="legendOther">
+            <span>(x2) : Repeated twice</span>
+        </div>
     </div>
-
-  </div>
-
-</div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-    /* =========================================================
-       TABS LOGIC
-    ========================================================= */
+    // =========================================================
+    // AUTO-GENERATION DES SCORE-ENTRY
+    // =========================================================
+    document.querySelectorAll(".score-min").forEach(img => {
+        const titleText = img.alt || "Untitled";
+
+        const entry = document.createElement("div");
+        entry.className = "score-entry";
+
+        const title = document.createElement("div");
+        title.className = "entry-title";
+        title.textContent = titleText;
+
+        [...img.attributes].forEach(a => {
+            if (a.name.startsWith("data-")) {
+                title.setAttribute(a.name, a.value);
+            }
+        });
+
+        const content = document.createElement("div");
+        content.className = "entry-content";
+
+        content.innerHTML = `
+            <div class="score-viewer">
+                <div class="svg-scrollbox">
+                    <img class="score-svg" src="${img.src}">
+                </div>
+                <div class="zoom-bar">
+                    <input type="range" class="zoom-range" min="0.5" max="3" step="0.1" value="1">
+                </div>
+            </div>
+            <div class="entry-subtitle">Related :</div>
+            <ul><li><a href="#"></a></li></ul>
+        `;
+
+        entry.appendChild(title);
+        entry.appendChild(content);
+
+        img.insertAdjacentElement("beforebegin", entry);
+        img.remove();
+    });
+
+    // =========================================================
+    // MAPPAGE TAB → ATTRIBUT
+    // =========================================================
+    const TAB_MAP = {
+        "composers": "data-composer",
+        "styles": "data-style",
+        "harmony": "data-hcp",
+        "forms": "data-work",
+        "rhythm": "data-rhythm",
+        "instrumentation": "data-instrument"
+    };
+
+    // =========================================================
+    // DICTIONNAIRE DE RENOMMAGE
+    // =========================================================
+    const DATA_RENAME = {
+        "arp": "Arpeggio Patterns",
+        "aug6fr": "Augmented 6<sup>th</sup>",
+        "cbl": "Chromatic Bass Line",
+        "chm": "Chromatic Harmony",
+        "cml": "Chromatic Melodic Line",
+        "fvhm": "Four Voice Harmony",
+        "kch4": "Key Changes : Up a perfect 4<sup>th</sup>",
+        "kch5": "Key Changes : Up a perfect 5<sup>th</sup>",
+        "mnk-a": "Minor Key : A minor",
+        "mnk-e": "Minor Key : E minor",
+        "pdlp": "Pedal Point"
+    };
+
+    function renameDataValue(val) {
+        return DATA_RENAME[val] || val;
+    }
+
+    const filterDiv = document.querySelector(".filter");
+
+    // =========================================================
+    // PREFILTRAGE
+    // =========================================================
+    function applyPrefilter(tabId) {
+        const entries = document.querySelectorAll(".score-entry");
+
+        if (!TAB_MAP[tabId]) {
+            entries.forEach(e => e.style.display = "");
+            return;
+        }
+
+        const attribute = TAB_MAP[tabId];
+
+        entries.forEach(entry => {
+            const title = entry.querySelector(".entry-title");
+            const val = title.getAttribute(attribute);
+            entry.style.display = (val && val.trim() !== "") ? "" : "none";
+        });
+    }
+
+    // =========================================================
+    // MISE À JOUR DU FILTRE
+    // =========================================================
+    function updateFilter(tabId) {
+
+        if (!TAB_MAP[tabId]) {
+            filterDiv.innerHTML = "";
+            return;
+        }
+
+        const attribute = TAB_MAP[tabId];
+        const titles = document.querySelectorAll(".entry-title");
+
+        const valueSet = new Set();
+
+        titles.forEach(t => {
+            const raw = t.getAttribute(attribute);
+            if (!raw) return;
+            raw.split(",").map(s => s.trim()).filter(Boolean).forEach(token => {
+                valueSet.add(renameDataValue(token));
+            });
+        });
+
+        const values = Array.from(valueSet).sort((a,b) => a.localeCompare(b));
+        filterDiv.innerHTML = values.map(v => `<span class="filter-item">${v}</span>`).join(" ");
+    }
+
+    // =========================================================
+    // TABS
+    // =========================================================
     const tabs = document.querySelectorAll(".tab-item");
     const panels = document.querySelectorAll(".tab-panel");
 
@@ -363,25 +595,106 @@ ul {
             panels.forEach(p => p.style.display = "none");
 
             tab.classList.add("active");
+
             const id = tab.dataset.target;
-            document.getElementById(id).style.display = "block";
+            if (id && document.getElementById(id)) {
+                document.getElementById(id).style.display = "block";
+            }
+
+            applyPrefilter(tab.id);
+            updateFilter(tab.id);
         });
     });
 
-    /* =========================================================
-       ENTRY TOGGLE LOGIC
-    ========================================================= */
+    // =========================================================
+    // TOGGLE ENTRY-TITLE
+    // =========================================================
     document.querySelectorAll(".entry-title").forEach(title => {
+
+        // ---- RÉORGANISATION DU CONTENU ----
+
+        // Conserver le texte existant
+        const text = title.textContent.trim();
+
+        // Effacer le contenu du titre
+        title.textContent = "";
+
+        // Conteneur flex de gauche : texte + icône add
+        const leftBox = document.createElement("div");
+        leftBox.className = "entry-title-left";
+        leftBox.textContent = text;
+
+        // Ajouter le conteneur au title
+        title.appendChild(leftBox);
+
+        // ---- ICÔNE ADD ----
+        const iconAdd = document.createElement("span");
+        iconAdd.className = "entry-icon"; // ta classe d’animation existante
+        iconAdd.textContent = "add_circle_outline";
+        leftBox.appendChild(iconAdd);
+
+        // ---- ICÔNE HELP (à droite) ----
+        const iconHelp = document.createElement("span");
+        iconHelp.className = "entry-help";
+        iconHelp.textContent = "help_outline";
+
+        // n'ajouter l'icône que si l'image possède un data-legend
+        const hasLegend = title.hasAttribute("data-legend");
+        if (hasLegend) {
+            title.appendChild(iconHelp);
+        }
+
+        // --- TOOLTIP (bulle de légende) ---
+        // --- TOOLTIP (bulle de légende) ---
+if (hasLegend) {
+
+    const legendId = title.getAttribute("data-legend");
+    const legendSource = document.getElementById(legendId);
+
+    // Création de la bulle (dans le titre directement)
+    const tooltip = document.createElement("div");
+    tooltip.className = "legend-tooltip";
+    if (legendSource) tooltip.innerHTML = legendSource.innerHTML;
+    title.appendChild(tooltip);
+
+    // Apparition / disparition
+    iconHelp.addEventListener("mouseenter", () => {
+        tooltip.classList.add("show");
+    });
+    iconHelp.addEventListener("mouseleave", () => {
+        tooltip.classList.remove("show");
+    });
+    tooltip.addEventListener("mouseenter", () => {
+        tooltip.classList.add("show");
+    });
+    tooltip.addEventListener("mouseleave", () => {
+        tooltip.classList.remove("show");
+    });
+}
+
+        // ---- LOGIQUE D’OUVERTURE / FERMETURE ----
         title.addEventListener("click", () => {
             const content = title.nextElementSibling;
             const isOpen = content.style.display === "block";
-            content.style.display = isOpen ? "none" : "block";
+
+            if (isOpen) {
+                content.style.display = "none";
+                iconAdd.classList.remove("visible");
+                if (hasLegend) iconHelp.classList.remove("visible");
+            } else {
+                content.style.display = "block";
+                requestAnimationFrame(() => {
+                    iconAdd.classList.add("visible");
+                    if (hasLegend) iconHelp.classList.add("visible");
+                });
+            }
         });
     });
 
-    /* =========================================================
-       ZOOM LOGIC
-    ========================================================= */
+
+    // =========================================================
+    // ZOOM
+    // =========================================================
     document.querySelectorAll('.score-viewer').forEach(viewer => {
         const slider = viewer.querySelector('.zoom-range');
         const image  = viewer.querySelector('.score-svg');
@@ -390,8 +703,68 @@ ul {
             image.style.transform = `scale(${slider.value})`;
         });
     });
+
+    // =========================================================
+    // SHRINK HEADER + TITRES
+    // =========================================================
+    const main = document.querySelector('.title-main');
+    const sub = document.querySelector('.title-sub');
+    const author = document.querySelector('.title-author');
+    const pageHeader = document.querySelector('.page-header');
+
+    const shrinkTransition = "transform 0.75s ease, margin-top 0.75s ease, max-height 0.75s ease, opacity 0.75s ease";
+    [main, sub, author, pageHeader].forEach(el => {
+        if (el) el.style.transition = shrinkTransition;
+    });
+
+    window.addEventListener('scroll', () => {
+        const active = window.scrollY > 50;
+
+        main.classList.toggle('shrink', active);
+        sub.classList.toggle('shrink', active);
+        author.classList.toggle('shrink', active);
+
+        if (pageHeader) {
+            pageHeader.classList.toggle('shrink', active);
+            pageHeader.style.marginTop = active ? "25px" : "40px";
+        }
+    });
+
 });
 
+// =========================================================
+// BLUR + OPACITÉ DU HEADER (SCROLL)
+// =========================================================
+window.addEventListener("scroll", () => {
+    const header = document.querySelector(".page-header");
+
+    const maxScroll = 200;
+    const y = Math.min(window.scrollY, maxScroll);
+    const t = y / maxScroll;
+
+    const blurVal = t * 8;
+    const opacityVal = 1 - t;
+
+    header.style.backdropFilter = `blur(${blurVal}px)`;
+    header.style.opacity = opacityVal;
+});
+
+// =========================================================
+// BLUR + OPACITÉ DU FOOTER (SCROLL) — SPÉCIFIQUE
+// =========================================================
+window.addEventListener("scroll", () => {
+    const footer = document.querySelector("footer");
+
+    const maxScroll = 200;
+    const y = Math.min(window.scrollY, maxScroll);
+    const t = y / maxScroll;
+
+    const blurVal = (1 - t) * 8;
+    const opacityVal = t;
+
+    footer.style.backdropFilter = `blur(${blurVal}px)`;
+    footer.style.opacity = opacityVal;
+});
 </script>
 
 </body>
