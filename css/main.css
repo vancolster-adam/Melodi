@@ -17,6 +17,10 @@
         font-size: 2.06vh; /* =16px sur ordi */
     }
 
+    @media (min-width: 600px) {
+      body {font-size: 2.06vw;}
+    }
+
 /* =========================================================
     SYSTEME DE BOARDS – VERSION STABLE POUR DICO
     ========================================================= */
@@ -67,3 +71,4 @@
 .legend {
     display: none;
 }
+
