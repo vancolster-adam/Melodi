@@ -1,0 +1,665 @@
+
+     
+        @import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anaheim&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
+     
+
+
+
+        /* =========================================================
+                                wtf 
+        ========================================================= */
+         ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+
+                                            
+        .section-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Label */
+        .selected-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            white-space: nowrap;
+            padding-left: 15px;
+        }
+
+        /* =========================================================
+        PAGE HEADER
+        ========================================================= */
+
+        .page-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+            backdrop-filter: blur(0px);
+            opacity: 1;
+        }
+                                            
+        .title-main {
+            font-family: 'Fascinate Inline', cursive;
+            font-size: 2.8em;
+            font-weight: 400;
+            margin: 0;
+            letter-spacing: 1px;
+            color: #E1CBC0;
+            text-shadow: 0 0 8px black;
+        }
+
+        .title-sub {
+            font-size: 1.4em;
+            font-family: "Anaheim", sans-serif;
+            font-weight: 400;
+            margin: 6px 0 0;
+            color: #444444df;
+        }
+
+        .title-author {
+            font-size: 1em;
+            font-family: "Nothing You Could Do", cursive;
+            font-weight: 300;
+            margin: 4px 0 0;
+            background: linear-gradient(90deg, rgb(44, 173, 243) 8% , cyan);
+            -webkit-background-clip: text;
+            color: transparent;
+            opacity: 1;
+            max-height: 40px;
+            overflow: hidden;
+        }
+
+        .title-author:hover {
+            transform: scale(1.1);
+        }
+
+        .title-main.shrink {
+            transform: scale(0.85);
+        }
+
+        .title-sub.shrink {
+            transform: scale(0.8);
+        }
+        
+        .title-author.shrink {
+            opacity: 0;
+            max-height: 0;
+        }
+
+        /* =========================================================
+        Footer
+        ========================================================= */
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding:0; 
+            background:#612346be; 
+            color:#E1CBC0; 
+            text-align:center;  
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: backdrop-filter 0.25s ease, opacity 0.25s ease;
+        }
+     
+
+     
+        /* =========================================================
+        SCORE ENTRIES : Text
+        ========================================================= */
+
+        .score-entry {
+            border: 1px solid #efebeb;
+            padding: 2.6vh;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #FAF7F5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
+        }
+
+        .entry-title {
+            font-weight: bold;
+            cursor: pointer;
+            color: #2c3e50;
+        }
+
+        .entry-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .entry-subtitle {
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        /* =========================================================
+        SCORE ENTRIES : Image 
+        ========================================================= */
+        
+        .svg-scrollbox {
+            border: none;
+            background: linear-gradient(#97598d17 50%, #9198e522);
+            max-height: 42vh;
+            overflow: auto;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .svg-scrollbox::-webkit-scrollbar {
+            display: none;
+        }
+
+        .score-svg {
+            transform-origin: top center;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.2s ease;
+        }
+
+        .zoom-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* =========================================================
+        SCORE ENTRIES : Icons + legend
+        ========================================================= */
+
+        .legend {
+            display: none;
+        }
+
+        .legend-tooltip {
+            position: absolute;
+            bottom: -27px;
+            /* ANCRAGE */
+            right: 2vh;
+            transform: translateY(100%);
+            max-width: 260px;
+            background: linear-gradient(143deg, rgba(44, 173, 243, 0.87) 50%, cyan);
+            padding: 10px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            font-size: 14px;
+            color: #222;
+            z-index: 20;
+        }
+
+        .legend-tooltip {
+            opacity: 0;
+            transform: translateY(100%) scale(0.9);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none; /* évite les déclenchements inutiles quand invisible */
+        }
+
+        .legend-tooltip.show {
+            opacity: 1;
+            transform: translateY(100%) scale(1);
+            pointer-events: auto;
+        }
+
+        /* used during measurement: visible but placed offscreen so width/height can be measured */
+        .legend-tooltip.measuring {
+            display: block;
+            left: -9999px !important;
+            top: -9999px !important;
+        }
+
+        /* final visible state (position set inline by script) */
+        .legend-tooltip.show {
+            display: block;
+        }
+
+        .legend-tooltip.locked {
+            opacity: 1 !important;
+            transform: translateY(100%) scale(1) !important;
+            pointer-events: auto;
+        }
+     
+        .board1 {
+            background: linear-gradient(#97598D, #9198e5);
+        }
+
+        /* =========================================================
+        Board I : Stock & Selected
+        ========================================================= */
+
+        .stock {
+            padding: 40px;
+            margin-top: 12%;
+            text-align: left;
+            z-index: 1;
+            position: relative;
+        }
+
+        .selected-entries { /* Structure générale */
+            display: none;
+            align-items: center;
+            gap: 16px;            /* espace entre "Selected" et les entrées */
+            margin: 40px;
+            margin-top: 0px;
+            background: #ffffff88;
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.415);
+            overflow: hidden;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* =========================================================
+        Board I : Stock --> TABS BAR
+        ========================================================= */
+
+        .tabs-bar {
+            display: flex;
+            gap: 1em;
+            position: relative;
+            justify-content: center;
+        }
+
+        .tab-item {
+            padding: 10px 22px;
+            margin: 0.3em;
+            margin-bottom: 0.5em;
+            cursor: pointer;
+            color: #e9d9d1b5;
+            background: #612346be;
+            backdrop-filter: blur(8px);
+            border-bottom: none;
+            border-radius: 15px;
+            box-shadow: 0 0px 6px #e1cbc0af;
+            transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+            transition: transform 0.25s ease;
+            user-select: none;
+            font-size: 15px;
+            line-height: 1.3;
+        }
+
+        .tab-item:hover {
+            background: #e1cbc0af;
+            color: #222;
+            box-shadow: 0 0px 6px #612346be;
+            transform: scale(1.1);
+        }
+
+        .tab-item.active {
+        margin-bottom: 0;
+        color: #E1CBC0;
+        background: linear-gradient(#ffffff45 8%, #ffffff88);
+        font-weight: 600;
+        box-shadow:0 -1px 4px rgba(0,0,0,0.04);
+        border-radius: 10px 10px 0 0;
+        transition: background 0.25s ease;
+        z-index: 6;
+        }
+
+        .tab-item.active:hover {
+            transform: scale(1);
+        }
+
+        /* =========================================================
+        Board I : Stock --> Filter
+        ========================================================= */
+
+        /* Filtre : colonnes et style () */
+        .filter {
+            margin: 2vh auto;
+            overflow: auto;
+            width: 80%;
+            max-height: 200px;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0));
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0));
+        }
+
+        
+
+        .filter-title { 
+            display: none; 
+        } /* optional */
+       
+        .filter-list {
+            display: flex;
+            gap: 10px;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 3vh;
+        }
+
+        .filter-list .column {
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+                .filter-section {
+            display: block;
+            margin: 10px 0 4px;
+            text-decoration: underline;
+            opacity: 0.7;
+            text-align: center;
+        }
+
+
+        .filter-list label {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 14px;
+            background-color: rgba(190,208,253,0.32);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            color: #222;
+            transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+            text-align: center;
+        }
+
+        .filter-list label:hover {
+            transform: translateY(-2px);
+            background-color: #e6f0ff;
+            box-shadow: 0 8px 15px rgba(0,123,255,0.12);
+        }
+
+.filter-list label.active {
+    background-color: #e1cbc0af;
+    box-shadow: 0 0 6px #612346be;
+    transform: scale(1.03);
+    font-weight: 600;
+}
+
+        .filter-list rt {
+            font-size: 100%
+        }
+
+        /* =========================================================
+        Board I : Selected-entries --> elements
+        ========================================================= */
+
+        .selected-list {      /* Liste horizontale scrollable */
+            display: flex;
+            flex: 1;          /* prend tout l’espace restant */
+            min-width: 0;     /* indispensable pour éviter les débordements */
+            flex-direction: row;
+            gap: 10x;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-right: 10px;
+            padding-left: 10px;
+            mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 7%,
+                black 93%,
+                transparent 100%
+            );
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 7%,
+                black 93%,
+                transparent 100%
+            );
+            scrollbar-width: thin;        /* Firefox */
+        }
+
+        /* Style des clones */
+        .selected-list .selected-clone {
+            margin: 8px;
+            flex: 0 0 auto;        /* empêche le shrink */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .selected-list {
+        scrollbar-width: none;     /* Firefox */
+        -ms-overflow-style: none;  /* IE/Edge */
+        }
+
+        .selected-list::-webkit-scrollbar {
+            display: none;             /* Chrome/Safari */
+        }
+     
+
+     
+        .tab-container {
+            padding: 18px 25px;
+            background: #ffffff88;
+            backdrop-filter: blur(8px);
+            border-radius: 12px 12px 12px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.415);
+            position: relative;
+            z-index: 5;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        #all {
+            display: block;
+        }
+
+        .tab-panel a {
+            display: block;
+            padding: 6px 0;
+            font-size: 15px;
+            text-decoration: none;
+            color: #222;
+            transition: color 0.2s ease;
+        }
+
+        .tab-panel a:hover {
+            color: #0056d6;
+        }
+
+        /* =========================================================
+        ICONS & BUBBLES (centralisé)
+        ========================================================= */
+
+        .entry-icon {
+            font-family: 'Material Icons Outlined';
+            font-size: 20px;
+            margin-left: 8px;
+            cursor: pointer;
+            vertical-align: middle;
+            color: #444;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none; /* invisible = non cliquable */
+        }
+
+        .entry-icon.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto; /* redeviens cliquable */
+        }
+
+        .entry-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .entry-title-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .entry-help {
+            font-family: 'Material Icons Outlined';
+            font-size: 20px;
+            color: #444444ba;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .entry-help.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            transition:transform 0.25s ease, color 0.25s ease;
+        }
+
+        .entry-help.visible:hover {
+            transform: scale(1.3);
+            background: linear-gradient(143deg, red 47% , orange);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .entry-help.locked-state {
+            transform: scale(1.3) !important;
+            background: linear-gradient(143deg, red 47% , orange);
+            -webkit-background-clip: text;
+            color: transparent !important;
+        }
+
+        .entry-info {
+            margin-top: 6px;
+            font-size: 0.95em;
+            color: rgba(44, 173, 243, 0.87);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .entry-info-icon {
+            font-size: 24px;       /* taille demandée */
+            line-height: 1;
+            background: linear-gradient(143deg, rgb(44, 173, 243) 47% , cyan);
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .entry-info-text {
+            color: inherit;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 100,
+            'GRAD' -25,
+            'opsz' 20
+        }
+
+        .entry-icon.added { /* état "ajouté" */
+            color: #2e7d32; 
+            transform: scale(1.05);
+            font-weight: 600;
+            opacity: 1 !important; /* forcer visibilité si nécessaire */
+            pointer-events: auto !important;
+            transform-origin: center;
+        }
+
+        .entry-title-left.added { /* texte & icone info deviennent verts */
+            color: #2e7d32;
+        }
+
+        .entry-info.added {
+            color: #2e7d32;
+        }
+
+        .entry-info.added .entry-info-icon {
+            background: linear-gradient(143deg, #43a047 40%, #66bb6a68);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .entry-icon.visible.added {  /* garder l'icône visible même si non ouvert (visible règle existante) */
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .selected-remove {
+            color: #d63031;
+            margin-left: 8px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: transform .18s ease, opacity .18s ease;
+        }
+
+        .selected-remove:hover {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+
+        /* Icône ajout : état normal */
+        .entry-icon {
+            transition: color .18s ease, transform .18s ease;
+        }
+
+        /* Icône ajout : état sélectionné (vert) */
+        .entry-icon.added {
+            color: #2e7d32 !important;
+        }
+
+        /* Icône ajout : état sélectionné + hover (rouge) */
+        .entry-icon.added:hover {
+            color: #d63030c5 !important;
+            transform: scale(1.15);
+        }
+        
+        .clone-info {
+            /*align-items: center;*/
+            cursor: pointer;
+            margin-top: 0;
+            margin-left: 11px;
+        }
+
+        .clone-info-reveal {
+            white-space: nowrap;
+            margin-left: 6px;
+            /*font-size: 0.92em;*/
+            opacity: 0;
+            max-width: 0;
+            overflow: hidden;
+            transition: 
+                opacity .25s ease,
+                max-width .35s ease;
+        }
+        .clone-info:hover .clone-info-reveal {
+            opacity: 1;
+            max-width: 500px; /* choisir une limite suffisante */
+        }
+     
+
+     
+        .board2 {
+            background-color: rgba(0, 0, 0, 0.842);
+        }
+        /* =========================================================
+        Board II : 
+        ========================================================= */
+
+                                /* COMING NEXT */
+
+     
