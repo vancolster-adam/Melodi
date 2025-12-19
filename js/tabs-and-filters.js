@@ -13,17 +13,27 @@ let currentTabId = "all";
     };
 
     const DATA_RENAME = {
+        "i-iv-i" : "1 - <i>Progressions</i> : I - IV - I",
+        "i-v-i" : "1 - <i>Progressions</i> : I - V - I", 
+        "ii-v-i" : "1 - <i>Progressions</i> : II - V - I",
+        "iv-v-i" : "1 - <i>Progressions</i> : IV - V - I",
+        "v/v-v-i" : "1 - <i>Progressions</i> : V/V - V - I",
+        "kch4": "2 - <i>Key Changes</i> : Up a perfect <i>4</i><sup>th</sup> / Down a perfect <i>5</i><sup>th</sup>",
+        "kch5": "2 - <i>Key Changes</i> : Up a perfect <i>5</i><sup>th</sup> / Down a perfect <i>4</i><sup>th</sup>",
         "pdlp": "Pedal Point",
         "arp": "Arpeggio Patterns",
-        "aug6fr": "Chord : French Augmented 6th",
+        "aug6fr": "4 - <i>Chords</i> : French Augmented 6<sup>th</sup>",
+        "sigchord" : "4 - <i>Chords</i> : Signature chords",
         "cbl": "Chromatic Bass Line",
         "chm": "Chromatic Harmony",
         "cml": "Chromatic Melodic Line",
+        "dbl": "Descending Bass Line",
         "fvhm": "Four Voice Harmony",
-        "kch4": "Key Changes : <sub><ruby>Down a perfect 5<sup>th</sup><rt>Up a perfect 4<sup>th</sup></rt></ruby></sub>",
-        "kch5": "Key Changes : <sub><ruby>Down a perfect 4<sup>th</sup><rt>Up a perfect 5<sup>th</sup></rt></ruby></sub>",
-        "mnk-a": "Minor Key : A minor",
-        "mnk-e": "Minor Key : E minor"
+        "mjk-f": "3.1 - <i>Tonal</i> : F major",
+        "mnk-a": "3.1 - <i>Tonal</i> : A minor",
+        "mnk-e": "3.1 - <i>Tonal</i> : E minor",
+        "mnk-f": "3.1 - <i>Tonal</i> : F minor",
+        "lyd-f": "3.2 - <i>Modal</i> : F lydian",
     };
 
     const renameDataValue = v => DATA_RENAME[v] || v;
@@ -50,60 +60,167 @@ let currentTabId = "all";
     /* =========================================================
        FILTRE (IGNORE .selected-clone)
     ========================================================= */
-    function updateFilter(tabId) {
-        const filterDiv = document.querySelector(".filter .filter-list");
+function updateFilter(tabId) {
+    const filterDiv = document.querySelector(".filter .filter-list");
+    filterDiv.innerHTML = "";
 
-        if (!TAB_MAP[tabId]) {
-            filterDiv.innerHTML = "";
+    if (!TAB_MAP[tabId]) return;
+
+    const attr = TAB_MAP[tabId];
+    const titles = document.querySelectorAll(".entry-title");
+
+    /* ===============================
+       COLLECTE + TRI ALPHABÉTIQUE
+    =============================== */
+    const values = new Set();
+    titles.forEach(t => {
+        const raw = t.getAttribute(attr);
+        if (!raw) return;
+        raw.split(",")
+            .map(v => v.trim())
+            .filter(Boolean)
+            .forEach(v => values.add(renameDataValue(v)));
+    });
+
+    const sortedValues = Array.from(values).sort((a, b) =>
+        a.localeCompare(b)
+    );
+
+    /* ===============================
+       REGROUPEMENT
+    =============================== */
+    const groups = {};
+    const others = [];
+
+    sortedValues.forEach(v => {
+        const m = v.match(/^(\d+)\s*-\s*([^:]+)\s*:\s*(.+)$/);
+        if (!m) {
+            others.push(v);
             return;
         }
 
-        const attr = TAB_MAP[tabId];
-        const titles = document.querySelectorAll(".entry-title");
+        const section = `${m[1]} - ${m[2].trim()} :`;
+        const item = m[3].trim();
 
-        const values = new Set();
-        titles.forEach(t => {
-            const raw = t.getAttribute(attr);
-            if (!raw) return;
-            raw.split(",").map(x => x.trim()).filter(Boolean)
-                .forEach(v => values.add(renameDataValue(v)));
+        if (!groups[section]) groups[section] = [];
+        groups[section].push(item);
+    });
+
+    const hasSections = Object.keys(groups).length > 0;
+
+    /* ===============================
+       FLUX LINÉAIRE
+    =============================== */
+    let linear = [];
+
+    if (!hasSections) {
+        /* CAS 1 : AUCUNE SECTION → COMPORTEMENT HISTORIQUE */
+        linear = sortedValues.map(v => ({
+            type: "label",
+            html: v,
+            value: v
+        }));
+    } else {
+        /* CAS 2 : SECTIONS DÉTECTÉES */
+        const orderedSections = Object.keys(groups).sort((a, b) =>
+            a.localeCompare(b)
+        );
+
+        orderedSections.forEach(section => {
+            linear.push({ type: "section", value: section });
+
+            groups[section]
+                .sort((a, b) => a.localeCompare(b))
+                .forEach(item => {
+                    linear.push({
+                        type: "label",
+                        html: item,
+                        value: `${section} ${item}`
+                    });
+                });
         });
 
-        const sorted = Array.from(values).sort((a,b)=> a.localeCompare(b));
-        const columnsCount = 4;
-        const perCol = Math.ceil(sorted.length / columnsCount);
-
-        filterDiv.innerHTML = "";
-        for (let c = 0; c < columnsCount; c++) {
-            const col = document.createElement("div");
-            col.className = "column";
-            const slice = sorted.slice(c * perCol, (c+1) * perCol);
-            slice.forEach(value => {
-                const idSafe = "f_"+value.replace(/\s+/g,"_").replace(/[^a-zA-Z0-9_]/g,"");
-                const label = document.createElement("label");
-                label.innerHTML = `<input type="checkbox" id="${idSafe}" value="${value}"> ${value}`;
-                col.appendChild(label);
+        if (others.length) {
+            linear.push({ type: "section", value: "Other" });
+            others.forEach(v => {
+                linear.push({
+                    type: "label",
+                    html: v,
+                    value: v
+                });
             });
-            filterDiv.appendChild(col);
+        }
+    }
+
+    /* ===============================
+       RENDU EN 4 COLONNES (INCHANGÉ)
+    =============================== */
+    const columnsCount = 4;
+    const perCol = Math.ceil(linear.length / columnsCount);
+
+    for (let c = 0; c < columnsCount; c++) {
+        const col = document.createElement("div");
+        col.className = "column";
+
+        linear
+            .slice(c * perCol, (c + 1) * perCol)
+            .forEach(item => {
+                if (item.type === "section") {
+                    const span = document.createElement("span");
+                    span.className = "filter-section";
+                    span.innerHTML = item.value;
+                    col.appendChild(span);
+                } else {
+                    const label = document.createElement("label");
+                    label.innerHTML = item.html;
+                    label.dataset.value = item.value;
+                    col.appendChild(label);
+                }
+            });
+
+        filterDiv.appendChild(col);
+    }
+
+    /* ===============================
+       FILTRAGE AU CLIC
+    =============================== */
+    filterDiv.onclick = e => {
+        const label = e.target.closest("label");
+        if (!label) return;
+
+        label.classList.toggle("active");
+
+        const activeValues = Array.from(
+            filterDiv.querySelectorAll("label.active")
+        ).map(l => l.dataset.value);
+
+        const entries = document.querySelectorAll(
+            ".score-entry:not(.selected-clone)"
+        );
+
+        if (activeValues.length === 0) {
+            applyPrefilter(tabId);
+            return;
         }
 
-        filterDiv.addEventListener("change", () => {
-            const checked = Array.from(filterDiv.querySelectorAll('input[type="checkbox"]:checked')).map(i => i.value);
-            const entries = document.querySelectorAll(".score-entry:not(.selected-clone)");
+        entries.forEach(entry => {
+            const raw =
+                entry.querySelector(".entry-title").getAttribute(attr) || "";
 
-            if (checked.length === 0) {
-                applyPrefilter(tabId);
-                return;
-            }
+            const entryValues = raw
+                .split(",")
+                .map(v => renameDataValue(v.trim()))
+                .filter(Boolean);
 
-            entries.forEach(entry => {
-                const raw = entry.querySelector(".entry-title").getAttribute(attr) || "";
-                const attrValues = raw.split(",").map(s => renameDataValue(s.trim())).filter(Boolean);
-                const ok = checked.some(ch => attrValues.includes(ch));
-                entry.style.display = ok ? "" : "none";
-            });
+            const match = activeValues.some(v =>
+                entryValues.some(ev => ev === v || ev.startsWith(v))
+            );
+
+            entry.style.display = match ? "" : "none";
         });
-    }
+    };
+}
+
 
     /* =========================================================
        TABS
