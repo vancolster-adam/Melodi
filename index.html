@@ -13,6 +13,7 @@ https://www.color-hex.com/color-palette/1067378
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/oldStyle.css">
     </style>
+    <!-- CSS : légende -->
     <style>
 
 
@@ -43,6 +44,35 @@ https://www.color-hex.com/color-palette/1067378
 
 
     </style>
+    <!-- CSS : Texte Board 2 Vide-->
+     <style>
+        .board2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .board2 p {
+            margin: 0;
+        }
+
+        .line1 {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .line2 {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .line3 {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.568);
+        }
+     </style>
 <body>
     <div class="board board1 maxi">
         <header class="page-header">
@@ -93,17 +123,17 @@ https://www.color-hex.com/color-palette/1067378
                         data-work="Symphony" 
                         data-instrument="Orchestra, Strings, String Section, Piano"
                         data-legend="legendHcp">
-                                    
+
                     <img src="https://ik.imagekit.io/AdamVancolsterdeRosa/Dico%20svg/hcp_mlr_Adagietto.svg?updatedAt=1765733596426" 
-                            alt="Harmony & Chord Progressions : G. Mahler - Symphony No. 5 : III - IV : Adagietto. Sehr langsam" 
-                            data-info="IN PROGRESS"
-                            class="score-min" 
-                            data-composer="Gustav Mahler"
-                            data-style="Romantic"  
-                            data-hcp="i-v-i, v/v-v-i, cbl, chm, mjk-f" 
-                            data-work="Symphony" 
-                            data-instrument="Orchestra, Strings, String Section, Harp"
-                            data-legend="legendHcp">
+                        alt="Harmony & Chord Progressions : G. Mahler - Symphony No. 5 : III - IV : Adagietto. Sehr langsam" 
+                        data-info="IN PROGRESS"
+                        class="score-min" 
+                        data-composer="Gustav Mahler"
+                        data-style="Romantic"  
+                        data-hcp="i-v-i, v/v-v-i, cbl, chm, mjk-f" 
+                        data-work="Symphony" 
+                        data-instrument="Orchestra, Strings, String Section, Harp"
+                        data-legend="legendHcp">
 
                     <img src="https://ik.imagekit.io/AdamVancolsterdeRosa/Dico%20svg/hcp_chopin_28_4.svg" 
                         alt="Harmony & Chord Progressions : F. Chopin - Op. 28, No. 4 : Prelude in Em" 
@@ -169,7 +199,11 @@ https://www.color-hex.com/color-palette/1067378
         </footer>
         </div>
     </div>
-    <div class="board board2 mini"></div>
+    <div class="board board2 mini">
+        <p class="line1">Your Comparative-Study Board is empty</p>
+        <p class="line2">Please select and place new entries</p>
+        <p class="line3">(⚠ <i>this board will soon be available</i>)</p>
+    </div>
     <div class="legend">
         <div id="legendHcp">
             <span>Colour Legend : </span>
@@ -195,10 +229,4 @@ https://www.color-hex.com/color-palette/1067378
 <script src="js/header-footer-effects.js" defer></script>
 </body>
 </html>
-
-
-
-
-
-
 
